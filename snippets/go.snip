@@ -1,0 +1,352 @@
+# hello world
+snippet helloworld
+abbr    package main\nimport fmt...
+  package main
+
+  import (
+    "fmt"
+  )
+
+  func main() {
+    fmt.Println("Hello World")
+  }
+
+# function
+snippet func
+abbr    func Function(...) [error] { ... }
+  func ${1:Function}(${2}) ${3:error} {
+    ${0}
+  }
+
+# append
+snippet ap
+abbr    append(slice, value)
+  ${1:slice} = append($1, ${0:value})
+
+# constant
+snippet con
+abbr    const Const Type = ...
+  const ${1:Const} ${2:Type} = ${0:0}
+
+# constants
+snippet cons
+abbr    const ( ... )
+  const (
+    ${1:Const} ${2:Type} = ${3:value}
+    ${0}
+  )
+
+# constants with iota
+snippet iota
+abbr    const ( ... = iota )
+  const (
+    ${1:Const} ${2:Type} = iota
+    ${0}
+  )
+
+# import
+snippet import
+abbr    import ( ... )
+  import (
+    "${1:package}"
+  )
+
+# interface
+snippet interface
+abbr    interface I { ... }
+  type ${1:Interface} interface {
+    ${2:/* TODO: add methods */}
+  }
+
+# if condition
+snippet if
+abbr    if ... { ... }
+  if ${1:condition} {
+    ${0}
+  }
+
+# else if
+snippet elseif
+abbr    else if { ... }
+  } else if ${1:condition} {
+    ${0}
+  }
+
+# else
+snippet else
+abbr    else { ... }
+  } else {
+    ${0}
+  }
+
+# if inline error
+snippet iferr
+abbr    if err := ...; err != nil { ... }
+  if err := ${1:condition}; err != nil {
+    ${0}
+  }
+
+# if return error
+snippet errn
+abbr if err != nil { return err }
+  if err != nil {
+    return err
+  }
+
+# if return error with two return values
+snippet errn,
+abbr    if err != nil { return [...], err }
+  if err != nil {
+    return ${1:nil}, err
+  }
+
+# if error handle and return
+snippet errh
+abbr    if err != nil { ... return }
+  if err != nil {
+    ${1}
+    return
+  }
+
+# json
+snippet json
+abbr    \`json:key\`
+  \`json:"${1:keyName}"\`
+
+# yaml
+snippet yaml
+abbr    \`yaml:key\`
+  \`yaml:"${1:keyName}"\`
+
+# for loop
+snippet for
+abbr    for ... { ... }
+  for ${1} {
+    ${0}
+  }
+
+# for integer loop
+snippet fori
+abbr    for 0..N-1 { ... }
+  for ${1:i} := 0; $1 < ${2:N}; $1++ {
+    ${0}
+  }
+
+# for range loop
+snippet forr
+abbr    for k, v := range items { ... }
+  for ${2:k}, ${3:v} := range ${1} {
+    ${0}
+  }
+
+# fmt.Printf()
+snippet ff
+abbr    fmt.Printf(...)
+  fmt.Printf("${1} = %+v\n", $1)
+
+# fmt.Println()
+snippet fn
+abbr   fmt.Println(...)
+  fmt.Println("${1}")
+
+# fmt.Errorf()
+snippet fe
+abbr    fmt.Errorf(...)
+  fmt.Errorf("${1}")
+
+# fmt.Sprintf()
+snippet fs
+abbr    fmt.Sprintf(...)
+  fmt.Sprintf("%${1:s}", ${2:var})
+
+# log.Printf()
+snippet lf
+abbr    log.Printf(...)
+  log.Printf("${1} = %+v\n", $1)
+
+# log.Println()
+snippet ln
+abbr    log.Println(...)
+  log.Println("${1}")
+
+# make
+snippet make
+abbr    make(Type, size, cap)
+  make(${1:[]string}, ${2:0}, ${3:0})
+
+# map
+snippet map
+abbr    map[Type]Type
+  map[${1:string}]${0:int}
+
+# main()
+snippet main
+abbr    func main() { ... }
+options head
+  func main() {
+    ${0}
+  }
+
+# method
+snippet method
+abbr    func (self Type) Method(...) [error] { ... }
+  func (${1:self} ${2:Type}) ${3:Do}(${4}) ${5:error }{
+    ${0}
+  }
+
+# ok
+snippet ok
+abbr    if !ok { ... }
+  if !ok {
+    ${0}
+  }
+
+# package
+snippet package
+abbr    package ...
+  package ${1:main}
+
+# return
+snippet return
+alias   rt
+abbr    return ...
+  return ${0}
+
+# struct
+snippet st
+abbr    type T struct { ... }
+  type ${1:Type} struct {
+    ${0}
+  }
+
+# select
+snippet select
+abbr    select { case v := <-chan: ... }
+  select {
+  case ${1:v} := <-${2:chan}:
+    ${0}
+  }
+
+# switch
+snippet switch
+abbr    switch x { ... }
+  switch ${1:var} {
+  case ${2:value1}:
+    ${0}
+  }
+
+# goroutine named function
+snippet go
+abbr    go Function(...)
+  go ${1:Function}(${0})
+
+# goroutine anonymous function
+snippet gof
+abbr    go func(...) { ... }(...)
+  go func(${1}) {
+    ${3:/* TODO */}
+  }(${2})
+
+# test function
+snippet test
+abbr    func TestFunction(t *testing.T) { ... }
+  func Test${1:Function}(t *testing.T) {
+    ${0}
+  }
+
+# test t.Run
+snippet tr
+abbr    t.Run("test name", func(t *testing.T){ ... })
+  t.Run("${1:name}", func(t *testing.T){
+    t.Parallel()
+    ${0}
+  })
+
+# table test
+snippet tt
+abbr    tests := []struct{...}{...} for {t.Run(){...}}
+  tests := []struct {
+    name string
+    given string
+    want string
+  }{
+    {"${2}", "${3}", "${4}",},
+  }
+  for _, tt := range tests {
+    tt := tt
+    t.Run(tt.name, func(t *testing.T){
+      t.Parallel()
+      got := ${1:Function}(tt.given)
+      if tt.want != got {
+        t.Errorf("given(%s): want %s, got %s", tt.given, tt.want, got)
+      }
+    })
+  }
+
+# table test with map
+snippet ttm
+abbr    tests := map[string]struct{...}{...} for {t.Run(){...}}
+  tests := map[string]struct {
+    given string
+    want string
+  }{
+      "${2}": {"${3}", "${4}",},
+  }
+  for name, tt := range tests {
+      tt := tt
+      t.Run(name, func(t *testing.T){
+          t.Parallel()
+          got := ${1:Function}(tt.given)
+          if tt.want != got {
+              t.Errorf("given(%s): want %s, got %s", tt.given, tt.want, got)
+          }
+      })
+  }
+
+# test error
+snippet ter
+abbr    if err != nil { t.Errorf(...) }
+  if err != nil {
+    t.Errorf("${1}")
+  }
+
+# test fatal error
+snippet terf
+abbr    if err != nil { t.Fatalf(...) }
+  if err != nil {
+    t.Fatalf("${1}")
+  }
+
+# example
+snippet example
+abbr    func ExampleFunction() { ... }
+  func Example${1:Function}() {
+    ${0}
+    // Output:
+  }
+
+# benchmark
+snippet benchmark
+abbr    func BenchmarkFunction(b *testing.B) { ... }
+  func Benchmark${1:Function}(b *testing.B) {
+    for i := 0; i < b.N; i++ {
+      ${0}
+    }
+  }
+
+# variable declaration
+snippet var
+abbr    var x Type [= ...]
+  var ${1:x} ${2:Type}${3: = ${0:value\}}
+
+# variables declaration
+snippet vars
+abbr var ( ... )
+  var (
+    ${1:x} ${2:Type}${3: = ${0:value\}}
+  )
+
+# shorthand variable declaration
+snippet :
+abbr    v := value
+  ${1} := ${0}
