@@ -367,3 +367,11 @@ abbr    mux.HandleFunc(...)
   ${1:http}.HandleFunc("${2:/}", func(w http.ResponseWriter, r *http.Request) {
     ${0:fmt.Fprintf(w, "hello world")}
   })
+
+snippet cb
+abbr    context.Background()
+  context.Background()
+
+snippet cc
+abbr    context.Context
+  context.Context
