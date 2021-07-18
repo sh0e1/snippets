@@ -13,8 +13,8 @@ abbr    package main\nimport fmt...
 
 # function
 snippet func
-abbr    func Function(...) [error] { ... }
-  func ${1:Function}(${2}) ${3:error} {
+abbr    func funcName(...) [error] { ... }
+  func ${1:funcName}(${2}) ${3:error} {
     ${0}
   }
 
@@ -25,14 +25,14 @@ abbr    append(slice, value)
 
 # constant
 snippet con
-abbr    const Const Type = ...
-  const ${1:Const} ${2:Type} = ${0:0}
+abbr    const constName Type = ...
+  const ${1:constName} ${2:type} = ${0:0}
 
 # constants
 snippet cons
 abbr    const ( ... )
   const (
-    ${1:Const} ${2:Type} = ${3:value}
+    ${1:constName} ${2:type} = ${3:value}
     ${0}
   )
 
@@ -40,7 +40,7 @@ abbr    const ( ... )
 snippet iota
 abbr    const ( ... = iota )
   const (
-    ${1:Const} ${2:Type} = iota
+    ${1:constName} ${2:type} = iota
     ${0}
   )
 
@@ -52,9 +52,14 @@ abbr    import ( ... )
   )
 
 # interface
+snippet in
+abbr    interface{}
+  interface{}
+
+# interface
 snippet interface
 abbr    interface I { ... }
-  type ${1:Interface} interface {
+  type ${1:interfaceName} interface {
     ${2:/* TODO: add methods */}
   }
 
@@ -190,7 +195,7 @@ options head
 # method
 snippet method
 abbr    func (self Type) Method(...) [error] { ... }
-  func (${1:self} ${2:Type}) ${3:Do}(${4}) ${5:error }{
+  func (${1:receiver} ${2:type}) ${3:funcName}(${4}) ${5:error }{
     ${0}
   }
 
@@ -215,7 +220,7 @@ abbr    return ...
 # struct
 snippet st
 abbr    type T struct { ... }
-  type ${1:Type} struct {
+  type ${1:type} struct {
     ${0}
   }
 
@@ -237,8 +242,8 @@ abbr    switch x { ... }
 
 # goroutine named function
 snippet go
-abbr    go Function(...)
-  go ${1:Function}(${0})
+abbr    go funcName(...)
+  go ${1:funcName}(${0})
 
 # goroutine anonymous function
 snippet gof
@@ -319,34 +324,46 @@ abbr    if err != nil { t.Fatalf(...) }
 
 # example
 snippet example
-abbr    func ExampleFunction() { ... }
-  func Example${1:Function}() {
+abbr    func ExampleFuncName() { ... }
+  func Example${1:funcName}() {
     ${0}
     // Output:
   }
 
 # benchmark
 snippet benchmark
-abbr    func BenchmarkFunction(b *testing.B) { ... }
-  func Benchmark${1:Function}(b *testing.B) {
+abbr    func BenchmarkFuncName(b *testing.B) { ... }
+  func Benchmark${1:funcName}(b *testing.B) {
     for i := 0; i < b.N; i++ {
       ${0}
     }
   }
 
+# shorthand variable declaration
+snippet v
+abbr    v := value
+  ${1} := ${0}
+
 # variable declaration
 snippet var
 abbr    var x Type [= ...]
-  var ${1:x} ${2:Type}${3: = ${0:value\}}
+  var ${1:v} ${2:type}${3: = ${0:value\}}
 
 # variables declaration
 snippet vars
 abbr var ( ... )
   var (
-    ${1:x} ${2:Type}${3: = ${0:value\}}
+    ${1:v} ${2:type}${3: = ${0:value\}}
   )
 
-# shorthand variable declaration
-snippet :
-abbr    v := value
-  ${1} := ${0}
+snippet hf
+abbr    http.HandlerFunc
+  func ${1:handler}(w http.ResponseWriter, r *http.Request) {
+    ${0:fmt.Fprintf(w, "hello world")}
+  }
+
+snippet hhf
+abbr    mux.HandleFunc(...)
+  ${1:http}.HandleFunc("${2:/}", func(w http.ResponseWriter, r *http.Request) {
+    ${0:fmt.Fprintf(w, "hello world")}
+  })
