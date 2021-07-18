@@ -56,8 +56,8 @@ snippet in
 abbr    interface{}
   interface{}
 
-# interface
-snippet interface
+# full interface
+snippet inf
 abbr    interface I { ... }
   type ${1:interfaceName} interface {
     ${2:/* TODO: add methods */}
@@ -308,6 +308,12 @@ abbr    tests := map[string]struct{...}{...} for {t.Run(){...}}
       })
   }
 
+snippet cmpdiff
+abbr    if diff := cmp.Diff(...); diff != "" { ... }
+  if diff := cmp.Diff(tt.want, got); diff != "" {
+    t.Errorf("${1:funcName} mismatch (-want +got):\n%s", diff)
+  }
+
 # test error
 snippet ter
 abbr    if err != nil { t.Errorf(...) }
@@ -351,17 +357,19 @@ abbr    var x Type [= ...]
 
 # variables declaration
 snippet vars
-abbr var ( ... )
+abbr    var ( ... )
   var (
     ${1:v} ${2:type}${3: = ${0:value\}}
   )
 
+# http handler
 snippet hf
 abbr    http.HandlerFunc
   func ${1:handler}(w http.ResponseWriter, r *http.Request) {
     ${0:fmt.Fprintf(w, "hello world")}
   }
 
+# http handle func
 snippet hhf
 abbr    mux.HandleFunc(...)
   ${1:http}.HandleFunc("${2:/}", func(w http.ResponseWriter, r *http.Request) {
